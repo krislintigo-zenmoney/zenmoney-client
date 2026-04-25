@@ -1,3 +1,9 @@
+## [1.2.0](https://github.com/krislintigo-zenmoney/zenmoney-client/compare/v1.1.3...v1.2.0) (2026-04-25)
+
+### Features
+
+* move token to api payload ([b6788d2](https://github.com/krislintigo-zenmoney/zenmoney-client/commit/b6788d204f65fe04dac373f004d66f8638ac31ef))
+
 ## [1.1.3](https://github.com/krislintigo-zenmoney/zenmoney-client/compare/v1.1.2...v1.1.3) (2026-04-25)
 
 ### Bug Fixes

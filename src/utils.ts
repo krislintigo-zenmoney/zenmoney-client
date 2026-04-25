@@ -1,18 +1,16 @@
 import { ZenMoneyApiError, ZenMoneyAuthError } from './errors.js'
-import type { OAuthTokenSet } from './types.js'
+import type { OAuthTokenSet } from './types/auth-client.types.js'
 
-export function ensureTrailingSlash(value: string): string {
-  return value.endsWith('/') ? value : `${value}/`
-}
+export const ensureTrailingSlash = (value: string): string =>
+  value.endsWith('/') ? value : `${value}/`
 
-export function buildUrl(baseUrl: string, path: string): URL {
-  return new URL(path, ensureTrailingSlash(baseUrl))
-}
+export const buildUrl = (baseUrl: string, path: string): URL =>
+  new URL(path, ensureTrailingSlash(baseUrl))
 
-export function parseOAuthTokenResponse(
+export const parseOAuthTokenResponse = (
   payload: unknown,
   fallbackRefreshToken?: string,
-): OAuthTokenSet {
+): OAuthTokenSet => {
   if (!isRecord(payload)) {
     throw new ZenMoneyAuthError('OAuth token response is not a JSON object.')
   }
@@ -47,9 +45,8 @@ export function parseOAuthTokenResponse(
   }
 }
 
-export function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null
-}
+export const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === 'object' && value !== null
 
 interface RequestJsonOptions {
   accessToken?: string | undefined

@@ -87,8 +87,8 @@ describe('Split clients', () => {
 
     vi.stubGlobal('fetch', mock)
 
-    const client = new ZenMoneyApiClient({ accessToken: 'secret-token' })
-    const diff = await client.diff({ serverTimestamp: 0 })
+    const client = new ZenMoneyApiClient()
+    const diff = await client.diff({ accessToken: 'secret-token', serverTimestamp: 0 })
 
     expect(diff.serverTimestamp).toBe(1234567890)
     expect(new Headers(calls[0]?.init?.headers).get('authorization')).toBe('Bearer secret-token')

@@ -5,7 +5,7 @@ import type {
   OAuthTokenSet,
   RefreshTokenParams,
   ZenMoneyAuthClientOptions,
-} from './types.js'
+} from './types/auth-client.types.js'
 import { buildUrl, parseOAuthTokenResponse, requestJson } from './utils.js'
 
 export class ZenMoneyAuthClient {

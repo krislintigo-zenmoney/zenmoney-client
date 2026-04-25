@@ -1,17 +1,17 @@
-import pluginJs from "@eslint/js";
-import tseslint from "typescript-eslint";
-import sonarjs from "eslint-plugin-sonarjs";
-import pluginImport from "eslint-plugin-import";
-import eslintConfigPrettier from "eslint-config-prettier";
-import globals from "globals";
+import pluginJs from '@eslint/js'
+import tseslint from 'typescript-eslint'
+import sonarjs from 'eslint-plugin-sonarjs'
+import pluginImport from 'eslint-plugin-import'
+import eslintConfigPrettier from 'eslint-config-prettier'
+import globals from 'globals'
 
 export default tseslint.config(
   {
-    ignores: ["**/dist/**", "**/node_modules/**"],
+    ignores: ['**/dist/**', '**/node_modules/**'],
   },
 
   {
-    files: ["**/*.ts"],
+    files: ['**/*.ts'],
     extends: [
       pluginJs.configs.recommended,
       ...tseslint.configs.strictTypeChecked,
@@ -21,8 +21,8 @@ export default tseslint.config(
       sonarjs.configs.recommended,
     ],
     languageOptions: {
-      ecmaVersion: "latest",
-      sourceType: "module",
+      ecmaVersion: 'latest',
+      sourceType: 'module',
       globals: globals.browser,
       parserOptions: {
         projectService: true,
@@ -31,10 +31,10 @@ export default tseslint.config(
       },
     },
     settings: {
-      "import/resolver": {
+      'import/resolver': {
         typescript: {
           alwaysTryTypes: true,
-          project: "./tsconfig.json",
+          project: './tsconfig.json',
         },
         node: true,
       },
@@ -42,25 +42,20 @@ export default tseslint.config(
     rules: {
       // IMPORT
 
-      "import/no-unresolved": "error",
-      "import/no-duplicates": "error",
-      "import/newline-after-import": "error",
-      "import/order": [
-        "warn",
+      'import/no-unresolved': 'error',
+      'import/no-duplicates': 'error',
+      'import/newline-after-import': 'error',
+      'import/order': [
+        'warn',
         {
-          groups: [
-            "builtin",
-            "external",
-            "internal",
-            ["parent", "sibling", "index"],
-          ],
-          "newlines-between": "always",
-          alphabetize: { order: "asc", caseInsensitive: true },
+          groups: ['builtin', 'external', 'internal', ['parent', 'sibling', 'index']],
+          'newlines-between': 'always',
+          alphabetize: { order: 'asc', caseInsensitive: true },
         },
       ],
 
-      "@typescript-eslint/restrict-template-expressions": [
-        "error",
+      '@typescript-eslint/restrict-template-expressions': [
+        'error',
         {
           allowNumber: true,
           allowBoolean: true,
@@ -68,30 +63,30 @@ export default tseslint.config(
           allowNullish: true,
         },
       ],
-      "@typescript-eslint/consistent-type-imports": [
-        "error",
-        { prefer: "type-imports", disallowTypeAnnotations: false },
+      '@typescript-eslint/consistent-type-imports': [
+        'error',
+        { prefer: 'type-imports', disallowTypeAnnotations: false },
       ],
-      "@typescript-eslint/no-unused-vars": [
-        "warn",
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
         {
-          argsIgnorePattern: "^_",
-          varsIgnorePattern: "^_",
-          caughtErrorsIgnorePattern: "^_",
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_',
         },
       ],
 
-      "sonarjs/no-implicit-dependencies": "error",
-      "sonarjs/todo-tag": "warn",
+      'sonarjs/no-implicit-dependencies': 'error',
+      'sonarjs/todo-tag': 'warn',
     },
   },
 
   {
-    files: ["src/types.ts"],
+    files: ['src/**/*.types.ts'],
     rules: {
-      "sonarjs/redundant-type-aliases": "off",
+      'sonarjs/redundant-type-aliases': 'off',
     },
   },
 
   eslintConfigPrettier,
-);
+)

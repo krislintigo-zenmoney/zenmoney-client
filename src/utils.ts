@@ -1,5 +1,10 @@
-import { ZenMoneyAuthError } from './errors'
-import type { OAuthTokenSet, ZenMoneyClientOptions } from './types.js'
+import { ZenMoneyApiError, ZenMoneyAuthError } from './errors.js'
+import type {
+  OAuthTokenSet,
+  ZenMoneyApiClientOptions,
+  ZenMoneyAuthClientOptions,
+  ZenMoneyClientOptions,
+} from './types.js'
 
 const DEFAULT_API_BASE_URL = 'https://api.zenmoney.ru/v8/'
 const DEFAULT_AUTH_BASE_URL = 'https://api.zenmoney.ru/oauth2/'
@@ -13,6 +18,29 @@ export function resolveClientOptions(options: ZenMoneyClientOptions) {
     redirectUri: options.redirectUri,
     accessToken: options.accessToken,
     refreshToken: options.refreshToken,
+    userAgent: options.userAgent,
+  }
+}
+
+export function resolveAuthClientOptions(
+  options: ZenMoneyAuthClientOptions | ZenMoneyClientOptions,
+) {
+  return {
+    authBaseUrl: ensureTrailingSlash(options.authBaseUrl ?? DEFAULT_AUTH_BASE_URL),
+    clientId: options.clientId,
+    clientSecret: options.clientSecret,
+    redirectUri: options.redirectUri,
+    refreshToken: options.refreshToken,
+    userAgent: options.userAgent,
+  }
+}
+
+export function resolveApiClientOptions(
+  options: ZenMoneyApiClientOptions | ZenMoneyClientOptions,
+) {
+  return {
+    apiBaseUrl: ensureTrailingSlash(options.apiBaseUrl ?? DEFAULT_API_BASE_URL),
+    accessToken: options.accessToken,
     userAgent: options.userAgent,
   }
 }
@@ -65,4 +93,72 @@ export function parseOAuthTokenResponse(
 
 export function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null
+}
+
+interface RequestJsonOptions {
+  accessToken?: string | undefined
+  body?: BodyInit
+  headers?: HeadersInit
+  missingAuthMessage?: string
+  requireAuth?: boolean
+  userAgent?: string | undefined
+}
+
+export async function requestJson<T = unknown>(
+  input: URL,
+  options: RequestJsonOptions,
+): Promise<T> {
+  const headers = new Headers(options.headers)
+  headers.set('accept', 'application/json')
+
+  if (options.userAgent) {
+    headers.set('user-agent', options.userAgent)
+  }
+
+  if (options.requireAuth) {
+    if (!options.accessToken) {
+      throw new ZenMoneyAuthError(
+        options.missingAuthMessage ?? 'Access token is required for this request.',
+      )
+    }
+
+    headers.set('authorization', `Bearer ${options.accessToken}`)
+  }
+
+  const response = await fetch(input, {
+    method: 'POST',
+    headers,
+    body: options.body ?? null,
+  })
+
+  const payload = await parseResponseBody(response)
+
+  if (!response.ok) {
+    throw new ZenMoneyApiError(`ZenMoney API request failed with status ${response.status}.`, {
+      status: response.status,
+      payload,
+    })
+  }
+
+  return payload as T
+}
+
+async function parseResponseBody(response: Response): Promise<unknown> {
+  const contentType = response.headers.get('content-type') ?? ''
+
+  if (contentType.includes('application/json')) {
+    return response.json()
+  }
+
+  const text = await response.text()
+
+  if (!text) {
+    return null
+  }
+
+  try {
+    return JSON.parse(text) as unknown
+  } catch {
+    return text
+  }
 }

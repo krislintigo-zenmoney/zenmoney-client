@@ -6,8 +6,9 @@ Modern TypeScript/Node.js SDK for [ZenMoney API](https://github.com/zenmoney/Zen
 
 В библиотеке уже подготовлены:
 
-- OAuth2 flow для получения и обновления токенов
-- typed-клиент для `diff` и `suggest`
+- отдельный `ZenMoneyAuthClient` для OAuth2 flow
+- отдельный `ZenMoneyApiClient` для `diff` и `suggest`
+- совместимый фасад `ZenMoneyClient`, объединяющий оба клиента
 - сборка в ESM и CommonJS
 - готовые типы для публикации в npm
 - `pnpm`-скрипты для сборки, тестов и проверки пакета перед публикацией
@@ -26,39 +27,32 @@ pnpm install
 ## Быстрый старт
 
 ```ts
-import { ZenMoneyClient } from 'zenmoney-api-client';
+import { ZenMoneyApiClient, ZenMoneyAuthClient } from '@krislintigo-zenmoney/zenmoney-client';
 
-const client = new ZenMoneyClient({
+const authClient = new ZenMoneyAuthClient({
   clientId: process.env.ZM_CLIENT_ID,
   clientSecret: process.env.ZM_CLIENT_SECRET,
   redirectUri: 'https://example.com/oauth/callback',
 });
 
-const authUrl = client.createAuthorizationUrl({
-  state: crypto.randomUUID(),
+const tokenSet = await authClient.refreshAccessToken({
+  refreshToken: process.env.ZM_REFRESH_TOKEN,
 });
 
-console.log('Open URL:', authUrl);
-
-const tokenSet = await client.authorizeWithCode({
-  code: 'CODE_FROM_CALLBACK',
+const apiClient = new ZenMoneyApiClient({
+  accessToken: tokenSet.accessToken,
 });
 
-console.log(tokenSet.accessToken);
-
-const diff = await client.diff({
-  serverTimestamp: 0,
-});
-
+const diff = await apiClient.diff({ serverTimestamp: 0 });
 console.dir(diff, { depth: null });
 ```
 
 ## Использование с уже готовым токеном
 
 ```ts
-import { ZenMoneyClient } from 'zenmoney-api-client';
+import { ZenMoneyClient } from '@krislintigo-zenmoney/zenmoney-client';
 
-const client = new ZenMoneyClient({
+const client = new ZenMoneyApiClient({
   accessToken: process.env.ZM_ACCESS_TOKEN,
 });
 
@@ -85,7 +79,13 @@ console.log(tokenSet.accessToken);
 
 ## API
 
-### `new ZenMoneyClient(options)`
+### `new ZenMoneyAuthClient(options)`
+
+Отвечает за OAuth2-операции и хранение `refreshToken`.
+
+### `new ZenMoneyApiClient(options)`
+
+Отвечает за `diff`/`suggest` и хранение `accessToken`.
 
 Параметры:
 
@@ -93,8 +93,6 @@ console.log(tokenSet.accessToken);
 - `accessToken`, `refreshToken` для повторного использования сессии
 - `apiBaseUrl`, `authBaseUrl` для тестирования или проксирования API
 - `userAgent` для кастомного заголовка
-
-Клиент использует нативный `fetch`, встроенный в Node.js 20+.
 
 ### Основные методы
 
@@ -109,6 +107,8 @@ console.log(tokenSet.accessToken);
 - `clearTokens()`
 - `getAccessToken()`
 - `getRefreshToken()`
+
+`diff(payload)` принимает `forceFetch` как массив строк, например `['transaction', 'merchant'] as const`. Сущности, перечисленные в `forceFetch`, в типе ответа становятся обязательными и возвращаются без `undefined`.
 
 ## Скрипты
 

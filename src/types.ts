@@ -185,10 +185,29 @@ export interface Deletion {
   user: number
 }
 
-export interface DiffRequest {
+export interface DiffEntityMap {
+  instrument: Instrument[]
+  company: Company[]
+  user: User[]
+  account: Account[]
+  tag: Tag[]
+  merchant: Merchant[]
+  budget: Budget[]
+  reminder: Reminder[]
+  reminderMarker: ReminderMarker[]
+  transaction: Transaction[]
+  deletion: Deletion[]
+}
+
+export type DiffForceFetch = readonly ForceFetchEntity[] | undefined
+
+type ForceFetchedEntity<ForceFetch extends DiffForceFetch> =
+  ForceFetch extends readonly ForceFetchEntity[] ? ForceFetch[number] : never
+
+export interface DiffRequest<ForceFetch extends DiffForceFetch = undefined> {
   currentClientTimestamp?: UnixTimestamp
   serverTimestamp: UnixTimestamp
-  forceFetch?: Partial<Record<ForceFetchEntity, true>>
+  forceFetch?: ForceFetch
   instrument?: Instrument[]
   company?: Company[]
   user?: User[]
@@ -202,20 +221,12 @@ export interface DiffRequest {
   deletion?: Deletion[]
 }
 
-export interface DiffResponse {
+type DiffResponseEntities<ForceFetch extends DiffForceFetch> = Partial<DiffEntityMap> &
+  Required<Pick<DiffEntityMap, Extract<ForceFetchedEntity<ForceFetch>, keyof DiffEntityMap>>>
+
+export type DiffResponse<ForceFetch extends DiffForceFetch = undefined> = {
   serverTimestamp: UnixTimestamp
-  instrument?: Instrument[]
-  company?: Company[]
-  user?: User[]
-  account?: Account[]
-  tag?: Tag[]
-  merchant?: Merchant[]
-  budget?: Budget[]
-  reminder?: Reminder[]
-  reminderMarker?: ReminderMarker[]
-  transaction?: Transaction[]
-  deletion?: Deletion[]
-}
+} & DiffResponseEntities<ForceFetch>
 
 export type SuggestRequest = Partial<Transaction>
 export type SuggestResponse = Partial<Transaction>
@@ -249,13 +260,21 @@ export interface CreateAuthorizationUrlParams {
   scope?: string
 }
 
-export interface ZenMoneyClientOptions {
-  accessToken?: string
+export interface ZenMoneyAuthClientOptions {
   refreshToken?: string
   clientId?: string
   clientSecret?: string
   redirectUri?: string
-  apiBaseUrl?: string
   authBaseUrl?: string
   userAgent?: string
 }
+
+export interface ZenMoneyApiClientOptions {
+  accessToken?: string
+  apiBaseUrl?: string
+  userAgent?: string
+}
+
+export interface ZenMoneyClientOptions
+  extends ZenMoneyAuthClientOptions,
+    ZenMoneyApiClientOptions {}

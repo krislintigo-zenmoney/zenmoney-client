@@ -1,3 +1,9 @@
+## [1.1.0](https://github.com/krislintigo-zenmoney/zenmoney-client/compare/v1.0.0...v1.1.0) (2026-04-25)
+
+### Features
+
+* update docs, split oauth and api clients ([452c3aa](https://github.com/krislintigo-zenmoney/zenmoney-client/commit/452c3aa0488518960ddbbd65084371bf9168a542))
+
 ## 1.0.0 (2026-04-25)
 
 ### Features

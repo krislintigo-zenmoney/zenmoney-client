@@ -1,7 +1,6 @@
-import { ZenMoneyApiClient } from './api-client.js'
-import { ZenMoneyAuthClient } from './auth-client.js'
+export { ZenMoneyApiClient } from './api-client.js'
+export { ZenMoneyAuthClient } from './auth-client.js'
 
-export { ZenMoneyApiClient, ZenMoneyAuthClient }
 export { ZenMoneyApiError, ZenMoneyAuthError, ZenMoneyError } from './errors.js'
 
 export type {
@@ -36,5 +35,4 @@ export type {
   UUID,
   ZenMoneyApiClientOptions,
   ZenMoneyAuthClientOptions,
-  ZenMoneyClientOptions,
 } from './types.js'

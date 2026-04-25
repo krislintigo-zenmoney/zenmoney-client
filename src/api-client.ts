@@ -2,24 +2,20 @@ import type {
   DiffForceFetch,
   DiffRequest,
   DiffResponse,
-  OAuthTokenSet,
   SuggestRequest,
   SuggestResponse,
   ZenMoneyApiClientOptions,
 } from './types.js'
-import { buildUrl, requestJson, resolveApiClientOptions } from './utils.js'
+import { buildUrl, requestJson } from './utils.js'
 
 export class ZenMoneyApiClient {
-  private readonly apiBaseUrl: string
+  private readonly apiBaseUrl = 'https://api.zenmoney.ru/v8/'
   private accessToken: string | undefined
-  private userAgent: string | undefined
+  private readonly userAgent: string | undefined
 
   public constructor(options: ZenMoneyApiClientOptions = {}) {
-    const resolved = resolveApiClientOptions(options)
-
-    this.apiBaseUrl = resolved.apiBaseUrl
-    this.accessToken = resolved.accessToken
-    this.userAgent = resolved.userAgent
+    this.accessToken = options.accessToken
+    this.userAgent = options.userAgent
   }
 
   public async diff<const ForceFetch extends DiffForceFetch = undefined>(
@@ -46,28 +42,21 @@ export class ZenMoneyApiClient {
   public async suggest(
     payload: SuggestRequest | SuggestRequest[],
   ): Promise<SuggestResponse | SuggestResponse[]> {
-    return requestJson<SuggestResponse | SuggestResponse[]>(
-      buildUrl(this.apiBaseUrl, 'suggest/'),
-      {
-        accessToken: this.accessToken,
-        body: JSON.stringify(payload),
-        headers: {
-          'content-type': 'application/json',
-        },
-        requireAuth: true,
-        missingAuthMessage:
-          'Access token is missing. Call authorizeWithCode(), refreshAccessToken() or setAccessToken() first.',
-        userAgent: this.userAgent,
+    return requestJson<SuggestResponse | SuggestResponse[]>(buildUrl(this.apiBaseUrl, 'suggest/'), {
+      accessToken: this.accessToken,
+      body: JSON.stringify(payload),
+      headers: {
+        'content-type': 'application/json',
       },
-    )
+      requireAuth: true,
+      missingAuthMessage:
+        'Access token is missing. Call authorizeWithCode(), refreshAccessToken() or setAccessToken() first.',
+      userAgent: this.userAgent,
+    })
   }
 
   public setAccessToken(accessToken: string): void {
     this.accessToken = accessToken
-  }
-
-  public setTokens(tokenSet: Pick<OAuthTokenSet, 'accessToken'>): void {
-    this.accessToken = tokenSet.accessToken
   }
 
   public getAccessToken(): string | undefined {

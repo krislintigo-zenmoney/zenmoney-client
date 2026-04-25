@@ -6,30 +6,22 @@ import type {
   RefreshTokenParams,
   ZenMoneyAuthClientOptions,
 } from './types.js'
-import {
-  buildUrl,
-  parseOAuthTokenResponse,
-  requestJson,
-  resolveAuthClientOptions,
-} from './utils.js'
+import { buildUrl, parseOAuthTokenResponse, requestJson } from './utils.js'
 
 export class ZenMoneyAuthClient {
-  private readonly authBaseUrl: string
+  private readonly authBaseUrl = 'https://api.zenmoney.ru/oauth2/'
   private clientId: string | undefined
   private clientSecret: string | undefined
   private redirectUri: string | undefined
   private refreshToken: string | undefined
-  private userAgent: string | undefined
+  private readonly userAgent: string | undefined
 
   public constructor(options: ZenMoneyAuthClientOptions = {}) {
-    const resolved = resolveAuthClientOptions(options)
-
-    this.authBaseUrl = resolved.authBaseUrl
-    this.clientId = resolved.clientId
-    this.clientSecret = resolved.clientSecret
-    this.redirectUri = resolved.redirectUri
-    this.refreshToken = resolved.refreshToken
-    this.userAgent = resolved.userAgent
+    this.clientId = options.clientId
+    this.clientSecret = options.clientSecret
+    this.redirectUri = options.redirectUri
+    this.refreshToken = options.refreshToken
+    this.userAgent = options.userAgent
   }
 
   public createAuthorizationUrl(params: CreateAuthorizationUrlParams = {}): string {

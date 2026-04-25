@@ -20,50 +20,93 @@ export type ForceFetchEntity =
   | 'reminderMarker'
   | 'transaction'
 
-export interface Instrument {
-  id: number
+interface EntityDefault<TId extends number | UUID> {
+  id: TId
   changed: UnixTimestamp
+}
+
+interface UserOwnedEntity {
+  /**
+   * Reference - `User.id`
+   * **/
+  user: number
+}
+
+export interface Instrument extends EntityDefault<number> {
   title: string
   shortTitle: string
   symbol: string
   rate: number
 }
 
-export interface Company {
-  id: number
-  changed: UnixTimestamp
+export interface Company extends EntityDefault<number> {
   title: string
   fullTitle: string | null
   www: string | null
   country: string | null
+  deleted: boolean
 }
 
-export interface User {
-  id: number
-  changed: UnixTimestamp
-  login: string | null
+// TODO: update
+export interface User extends EntityDefault<number> {
+  /**
+   * Custom login or email
+   * **/
+  login: string
+
+  email: string
+
+  /**
+   * Reference - `Instrument.id`
+   * **/
   currency: number
+
+  /**
+   * Reference - `User.id`
+   *
+   * If `null`, the user is the main account
+   * **/
   parent: number | null
+
+  country: null
+  countryCode: string
+
+  monthStartDay: 1
+  isForecastEnabled: false
+  planBalanceMode: string
+  planSettings: string
+
+  subscription: string
+  paidTill: UnixTimestamp
+  subscriptionRenewalDate: null
 }
 
-export interface Account {
-  id: UUID
-  changed: UnixTimestamp
-  user: number
-  role?: number | null
-  instrument: number | null
+export interface Account extends EntityDefault<UUID>, UserOwnedEntity {
+  /**
+   * Reference - `User.id`
+   * **/
+  role: number | null
+
+  /**
+   * Reference - `Instrument.id`
+   * **/
+  instrument: number
+
+  /**
+   * Reference - `Company.id`
+   * **/
   company: number | null
+
   type: AccountType
+
   title: string
+
   syncID: string[] | null
-  balance: number | null
+
+  balance: number
   startBalance: number | null
   creditLimit: number | null
-  inBalance: boolean
-  savings?: boolean | null
-  enableCorrection: boolean
-  enableSMS: boolean
-  archive: boolean
+
   capitalization: boolean | null
   percent: number | null
   startDate: ISODateString | null
@@ -71,35 +114,41 @@ export interface Account {
   endDateOffsetInterval: DateOffsetInterval | null
   payoffStep: number | null
   payoffInterval: PayoffInterval | null
+
+  inBalance: boolean
+  savings: boolean
+  enableCorrection: boolean
+  enableSMS: boolean
+  archive: boolean
 }
 
-export interface Tag {
-  id: UUID
-  changed: UnixTimestamp
-  user: number
+export interface Tag extends EntityDefault<UUID>, UserOwnedEntity {
   title: string
-  parent?: UUID | null
-  icon?: string | null
-  picture?: string | null
-  color?: number | null
+
+  /**
+   * Reference - `Tag.id`
+   * **/
+  parent: UUID | null
+
+  icon: string | null
+  color: number | null
+  picture: string | null
+
   showIncome: boolean
   showOutcome: boolean
   budgetIncome: boolean
   budgetOutcome: boolean
-  required?: boolean | null
+  required: boolean | null
+
+  staticId: string | null
 }
 
-export interface Merchant {
-  id: UUID
-  changed: UnixTimestamp
-  user: number
+export interface Merchant extends EntityDefault<UUID>, UserOwnedEntity {
   title: string
 }
 
-export interface Reminder {
-  id: UUID
-  changed: UnixTimestamp
-  user: number
+// TODO: update
+export interface Reminder extends EntityDefault<UUID>, UserOwnedEntity {
   incomeInstrument: number
   incomeAccount: UUID
   income: number
@@ -118,10 +167,8 @@ export interface Reminder {
   notify: boolean
 }
 
-export interface ReminderMarker {
-  id: UUID
-  changed: UnixTimestamp
-  user: number
+// TODO: update
+export interface ReminderMarker extends EntityDefault<UUID>, UserOwnedEntity {
   incomeInstrument: number
   incomeAccount: UUID
   income: number
@@ -138,11 +185,9 @@ export interface ReminderMarker {
   notify: boolean
 }
 
-export interface Transaction {
-  id: UUID
-  changed: UnixTimestamp
+// TODO: update
+export interface Transaction extends EntityDefault<UUID>, UserOwnedEntity {
   created: UnixTimestamp
-  user: number
   deleted: boolean
   hold?: boolean | null
   incomeInstrument: number
@@ -167,15 +212,24 @@ export interface Transaction {
   longitude: number | null
 }
 
-export interface Budget {
+export interface Budget extends UserOwnedEntity {
   changed: UnixTimestamp
-  user: number
+
+  /**
+   * Reference - `Tag.id`
+   *
+   * If `null`, budget for transactions without tags
+   * **/
   tag: UUID | null
+
   date: ISODateString
+
   income: number
   incomeLock: boolean
+  isIncomeForecast: false
   outcome: number
   outcomeLock: boolean
+  isOutcomeForecast: false
 }
 
 export interface Deletion {
@@ -274,7 +328,3 @@ export interface ZenMoneyApiClientOptions {
   apiBaseUrl?: string
   userAgent?: string
 }
-
-export interface ZenMoneyClientOptions
-  extends ZenMoneyAuthClientOptions,
-    ZenMoneyApiClientOptions {}

@@ -1,49 +1,5 @@
 import { ZenMoneyApiError, ZenMoneyAuthError } from './errors.js'
-import type {
-  OAuthTokenSet,
-  ZenMoneyApiClientOptions,
-  ZenMoneyAuthClientOptions,
-  ZenMoneyClientOptions,
-} from './types.js'
-
-const DEFAULT_API_BASE_URL = 'https://api.zenmoney.ru/v8/'
-const DEFAULT_AUTH_BASE_URL = 'https://api.zenmoney.ru/oauth2/'
-
-export function resolveClientOptions(options: ZenMoneyClientOptions) {
-  return {
-    apiBaseUrl: ensureTrailingSlash(options.apiBaseUrl ?? DEFAULT_API_BASE_URL),
-    authBaseUrl: ensureTrailingSlash(options.authBaseUrl ?? DEFAULT_AUTH_BASE_URL),
-    clientId: options.clientId,
-    clientSecret: options.clientSecret,
-    redirectUri: options.redirectUri,
-    accessToken: options.accessToken,
-    refreshToken: options.refreshToken,
-    userAgent: options.userAgent,
-  }
-}
-
-export function resolveAuthClientOptions(
-  options: ZenMoneyAuthClientOptions | ZenMoneyClientOptions,
-) {
-  return {
-    authBaseUrl: ensureTrailingSlash(options.authBaseUrl ?? DEFAULT_AUTH_BASE_URL),
-    clientId: options.clientId,
-    clientSecret: options.clientSecret,
-    redirectUri: options.redirectUri,
-    refreshToken: options.refreshToken,
-    userAgent: options.userAgent,
-  }
-}
-
-export function resolveApiClientOptions(
-  options: ZenMoneyApiClientOptions | ZenMoneyClientOptions,
-) {
-  return {
-    apiBaseUrl: ensureTrailingSlash(options.apiBaseUrl ?? DEFAULT_API_BASE_URL),
-    accessToken: options.accessToken,
-    userAgent: options.userAgent,
-  }
-}
+import type { OAuthTokenSet } from './types.js'
 
 export function ensureTrailingSlash(value: string): string {
   return value.endsWith('/') ? value : `${value}/`

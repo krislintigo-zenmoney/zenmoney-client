@@ -1,5 +1,7 @@
 # zenmoney-client
 
+test: 42.0
+
 Modern TypeScript/Node.js SDK for [ZenMoney API](https://github.com/zenmoney/ZenPlugins/wiki/ZenMoney-API).
 
 В библиотеке уже подготовлены:

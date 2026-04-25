@@ -1,6 +1,6 @@
 # zenmoney-client
 
-Современный TypeScript/Node.js SDK для [ZenMoney API](https://github.com/zenmoney/ZenPlugins/wiki/ZenMoney-API).
+Modern TypeScript/Node.js SDK for [ZenMoney API](https://github.com/zenmoney/ZenPlugins/wiki/ZenMoney-API).
 
 В библиотеке уже подготовлены:
 

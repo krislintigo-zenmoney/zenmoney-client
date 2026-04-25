@@ -13,11 +13,12 @@ export class ZenMoneyApiClient {
   public async diff<const ForceFetch extends DiffForceFetch = undefined>(
     payload: DiffRequest<ForceFetch>,
   ): Promise<DiffResponse<ForceFetch>> {
+    const { accessToken, ...rest } = payload
     return requestJson<DiffResponse<ForceFetch>>(buildUrl(this.apiBaseUrl, 'diff/'), {
-      accessToken: payload.accessToken,
+      accessToken,
       body: JSON.stringify({
         currentClientTimestamp: payload.currentClientTimestamp ?? Math.floor(Date.now() / 1000),
-        ...payload,
+        ...rest,
       }),
       headers: {
         'content-type': 'application/json',
@@ -33,11 +34,13 @@ export class ZenMoneyApiClient {
   public async suggest(
     payload: SuggestRequest<SuggestTransaction> | SuggestRequest<SuggestTransaction[]>,
   ): Promise<SuggestTransaction | SuggestTransaction[]> {
+    const { accessToken, payload: suggestPayload } = payload
+
     return requestJson<SuggestTransaction | SuggestTransaction[]>(
       buildUrl(this.apiBaseUrl, 'suggest/'),
       {
-        accessToken: payload.accessToken,
-        body: JSON.stringify(payload),
+        accessToken,
+        body: JSON.stringify(suggestPayload),
         headers: {
           'content-type': 'application/json',
         },

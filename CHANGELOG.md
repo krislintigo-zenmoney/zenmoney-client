@@ -1,3 +1,9 @@
+## [1.1.3](https://github.com/krislintigo-zenmoney/zenmoney-client/compare/v1.1.2...v1.1.3) (2026-04-25)
+
+### Bug Fixes
+
+* update types ([0d61be1](https://github.com/krislintigo-zenmoney/zenmoney-client/commit/0d61be1313f6050c59491e8a8343e22a2fde8831))
+
 ## [1.1.2](https://github.com/krislintigo-zenmoney/zenmoney-client/compare/v1.1.1...v1.1.2) (2026-04-25)
 
 ### Bug Fixes

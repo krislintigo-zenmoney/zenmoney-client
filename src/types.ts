@@ -183,6 +183,10 @@ export interface Transaction extends EntityDefault<UUID>, UserOwnedEntity {
 
   latitude: number | null
   longitude: number | null
+  qrCode: string | null
+  source: string | null
+  incomeBankID: string | null
+  outcomeBankID: string | null
 }
 
 export interface Budget extends UserOwnedEntity {

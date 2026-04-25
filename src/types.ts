@@ -47,7 +47,6 @@ export interface Company extends EntityDefault<number> {
   deleted: boolean
 }
 
-// TODO: update
 export interface User extends EntityDefault<number> {
   /**
    * Custom login or email
@@ -148,66 +147,40 @@ export interface Merchant extends EntityDefault<UUID>, UserOwnedEntity {
 }
 
 // TODO: update
-export interface Reminder extends EntityDefault<UUID>, UserOwnedEntity {
-  incomeInstrument: number
-  incomeAccount: UUID
-  income: number
-  outcomeInstrument: number
-  outcomeAccount: UUID
-  outcome: number
-  tag: UUID[] | null
-  merchant: UUID | null
-  payee: string | null
-  comment: string | null
-  interval: DateOffsetInterval | null
-  step: number | null
-  points: number[] | null
-  startDate: ISODateString
-  endDate: ISODateString | null
-  notify: boolean
-}
-
-// TODO: update
-export interface ReminderMarker extends EntityDefault<UUID>, UserOwnedEntity {
-  incomeInstrument: number
-  incomeAccount: UUID
-  income: number
-  outcomeInstrument: number
-  outcomeAccount: UUID
-  outcome: number
-  tag: UUID[] | null
-  merchant: UUID | null
-  payee: string | null
-  comment: string | null
-  date: ISODateString
-  reminder: UUID
-  state: ReminderMarkerState
-  notify: boolean
-}
-
-// TODO: update
 export interface Transaction extends EntityDefault<UUID>, UserOwnedEntity {
   created: UnixTimestamp
   deleted: boolean
   hold?: boolean | null
+  viewed: boolean
+
   incomeInstrument: number
+
   incomeAccount: UUID
+
   income: number
+
   outcomeInstrument: number
+
   outcomeAccount: UUID
+
   outcome: number
+
   tag: UUID[] | null
   merchant: UUID | null
   payee: string | null
   originalPayee: string | null
   comment: string | null
+
   date: ISODateString
   mcc: number | null
+
   reminderMarker: UUID | null
+
   opIncome: number | null
   opIncomeInstrument: number | null
   opOutcome: number | null
   opOutcomeInstrument: number | null
+
   latitude: number | null
   longitude: number | null
 }
@@ -230,6 +203,45 @@ export interface Budget extends UserOwnedEntity {
   outcome: number
   outcomeLock: boolean
   isOutcomeForecast: false
+}
+
+interface ReminderBase extends EntityDefault<UUID>, UserOwnedEntity {
+  incomeInstrument: number
+  incomeAccount: UUID
+  income: number
+  outcomeInstrument: number
+  outcomeAccount: UUID
+  outcome: number
+
+  tag: UUID[] | null
+  merchant: UUID | null
+  payee: string | null
+  comment: string | null
+
+  notify: boolean
+}
+
+export interface Reminder extends ReminderBase {
+  /** `null` - one-time transaction **/
+  interval: DateOffsetInterval | null
+
+  step: number | null
+
+  points: number[] | null
+
+  startDate: ISODateString
+  endDate: ISODateString | null
+}
+
+export interface ReminderMarker extends ReminderBase {
+  date: ISODateString
+
+  /**
+   * Reference - `Reminder.id`
+   * **/
+  reminder: UUID
+
+  state: ReminderMarkerState
 }
 
 export interface Deletion {

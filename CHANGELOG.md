@@ -1,3 +1,9 @@
+## [1.2.2](https://github.com/krislintigo-zenmoney/zenmoney-client/compare/v1.2.1...v1.2.2) (2026-05-02)
+
+### Bug Fixes
+
+* **types:** fields description, more types ([1336e18](https://github.com/krislintigo-zenmoney/zenmoney-client/commit/1336e185943e7e8bf61ef1bbf0f16f064c42f7ac))
+
 ## [1.2.1](https://github.com/krislintigo-zenmoney/zenmoney-client/compare/v1.2.0...v1.2.1) (2026-04-25)
 
 ### Bug Fixes

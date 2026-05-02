@@ -51,7 +51,3 @@ export class ZenMoneyApiClient {
     )
   }
 }
-
-const client = new ZenMoneyApiClient()
-
-const res = await client.suggest({ accessToken: 'secret-token', payload: { payee: 'Gippo' } })

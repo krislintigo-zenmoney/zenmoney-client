@@ -1,6 +1,6 @@
 {
   "name": "@krislintigo-zenmoney/zenmoney-client",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Modern TypeScript client for the ZenMoney API",
   "keywords": [
     "zenmoney",

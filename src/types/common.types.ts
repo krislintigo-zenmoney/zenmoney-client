@@ -58,7 +58,7 @@ export interface User extends EntityDefault<number> {
   country: null
   countryCode: string
 
-  monthStartDay: 1
+  monthStartDay: number
   isForecastEnabled: false
   planBalanceMode: string
   planSettings: string
@@ -134,26 +134,38 @@ export interface Merchant extends EntityDefault<UUID>, UserOwnedEntity {
   title: string
 }
 
-// TODO: update
 export interface Transaction extends EntityDefault<UUID>, UserOwnedEntity {
   created: UnixTimestamp
   deleted: boolean
   hold?: boolean | null
   viewed: boolean
 
+  /**
+   * Reference - `Instrument.id`
+   * **/
   incomeInstrument: number
-
+  /**
+   * Reference - `Account.id`
+   * **/
   incomeAccount: UUID
-
   income: number
-
+  /**
+   * Reference - `Instrument.id`
+   * **/
   outcomeInstrument: number
-
+  /**
+   * Reference - `Account.id`
+   * **/
   outcomeAccount: UUID
-
   outcome: number
 
+  /**
+   * Reference - `Tag.id`
+   * **/
   tag: UUID[] | null
+  /**
+   * Reference - `Merchant.id`
+   * **/
   merchant: UUID | null
   payee: string | null
   originalPayee: string | null
@@ -164,9 +176,21 @@ export interface Transaction extends EntityDefault<UUID>, UserOwnedEntity {
 
   reminderMarker: UUID | null
 
+  /**
+   * Income amount in operation currency
+   * **/
   opIncome: number | null
+  /**
+   * Operation currency
+   * **/
   opIncomeInstrument: number | null
+  /**
+   * Outcome amount in operation currency
+   * **/
   opOutcome: number | null
+  /**
+   * Operation currency
+   * **/
   opOutcomeInstrument: number | null
 
   latitude: number | null

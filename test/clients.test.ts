@@ -8,11 +8,12 @@ interface FetchCall {
 }
 
 function createFetchMock(responseFactory: (call: FetchCall) => Response) {
-  const calls: FetchCall[] = []
+  const calls: Array<FetchCall> = []
   const mock = vi.fn((input: URL | RequestInfo, init?: RequestInit) => {
     const call = { input, init }
     calls.push(call)
-    return Promise.resolve(responseFactory(call))
+
+    return responseFactory(call)
   })
 
   return { calls, mock }
@@ -20,7 +21,7 @@ function createFetchMock(responseFactory: (call: FetchCall) => Response) {
 
 function toUrlString(value: URL | RequestInfo): string {
   if (value instanceof URL) {
-    return value.toString()
+    return value.href
   }
 
   if (typeof value === 'string') {
@@ -36,21 +37,20 @@ describe('Split clients', () => {
   })
 
   it('uses ZenMoneyAuthClient for oauth operations', async () => {
-    const { calls, mock } = createFetchMock(
-      () =>
-        new Response(
-          JSON.stringify({
-            access_token: 'access-token',
-            token_type: 'bearer',
-            refresh_token: 'refresh-token',
-          }),
-          {
-            status: 200,
-            headers: {
-              'content-type': 'application/json',
-            },
+    const { calls, mock } = createFetchMock(() =>
+      Response.json(
+        {
+          access_token: 'access-token',
+          token_type: 'bearer',
+          refresh_token: 'refresh-token',
+        },
+        {
+          status: 200,
+          headers: {
+            'content-type': 'application/json',
           },
-        ),
+        },
+      ),
     )
 
     vi.stubGlobal('fetch', mock)
@@ -69,20 +69,19 @@ describe('Split clients', () => {
   })
 
   it('uses ZenMoneyApiClient for diff and suggest operations', async () => {
-    const { calls, mock } = createFetchMock(
-      () =>
-        new Response(
-          JSON.stringify({
-            serverTimestamp: 1234567890,
-            transaction: [],
-          }),
-          {
-            status: 200,
-            headers: {
-              'content-type': 'application/json',
-            },
+    const { calls, mock } = createFetchMock(() =>
+      Response.json(
+        {
+          serverTimestamp: 1_234_567_890,
+          transaction: [],
+        },
+        {
+          status: 200,
+          headers: {
+            'content-type': 'application/json',
           },
-        ),
+        },
+      ),
     )
 
     vi.stubGlobal('fetch', mock)
@@ -90,7 +89,7 @@ describe('Split clients', () => {
     const client = new ZenMoneyApiClient()
     const diff = await client.diff({ accessToken: 'secret-token', serverTimestamp: 0 })
 
-    expect(diff.serverTimestamp).toBe(1234567890)
+    expect(diff.serverTimestamp).toBe(1_234_567_890)
     expect(new Headers(calls[0]?.init?.headers).get('authorization')).toBe('Bearer secret-token')
   })
 })

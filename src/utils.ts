@@ -1,8 +1,12 @@
 import { ZenMoneyApiError, ZenMoneyAuthError } from './errors.js'
+
 import type { OAuthTokenSet } from './types/auth-client.types.js'
 
 export const ensureTrailingSlash = (value: string): string =>
   value.endsWith('/') ? value : `${value}/`
+
+export const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === 'object' && value !== null
 
 export const buildUrl = (baseUrl: string, path: string): URL =>
   new URL(path, ensureTrailingSlash(baseUrl))
@@ -15,38 +19,33 @@ export const parseOAuthTokenResponse = (
     throw new ZenMoneyAuthError('OAuth token response is not a JSON object.')
   }
 
-  const accessToken = payload.access_token
-  const tokenType = payload.token_type
-  const expiresIn = payload.expires_in
-  const refreshToken = payload.refresh_token
-  const scope = payload.scope
+  const { access_token, token_type } = payload
 
-  if (typeof accessToken !== 'string' || typeof tokenType !== 'string') {
+  if (typeof access_token !== 'string' || typeof token_type !== 'string') {
     throw new ZenMoneyAuthError(
       'OAuth token response does not contain access_token and token_type.',
     )
   }
 
+  const { expires_in, refresh_token, scope } = payload
+
   let refreshTokenField: Partial<Pick<OAuthTokenSet, 'refreshToken'>> = {}
 
-  if (typeof refreshToken === 'string') {
-    refreshTokenField = { refreshToken }
+  if (typeof refresh_token === 'string') {
+    refreshTokenField = { refreshToken: refresh_token }
   } else if (typeof fallbackRefreshToken === 'string') {
     refreshTokenField = { refreshToken: fallbackRefreshToken }
   }
 
   return {
-    accessToken,
-    tokenType,
+    accessToken: access_token,
+    tokenType: token_type,
     raw: payload,
-    ...(typeof expiresIn === 'number' ? { expiresIn } : {}),
+    ...(typeof expires_in === 'number' && { expiresIn: expires_in }),
     ...refreshTokenField,
-    ...(typeof scope === 'string' ? { scope } : {}),
+    ...(typeof scope === 'string' && { scope }),
   }
 }
-
-export const isRecord = (value: unknown): value is Record<string, unknown> =>
-  typeof value === 'object' && value !== null
 
 interface RequestJsonOptions {
   accessToken?: string | undefined
@@ -93,6 +92,7 @@ export async function requestJson<T = unknown>(
     })
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
   return payload as T
 }
 

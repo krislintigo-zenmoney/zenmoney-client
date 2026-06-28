@@ -15,7 +15,7 @@ Modern TypeScript/Node.js SDK for [ZenMoney API](https://github.com/zenmoney/Zen
 
 ## Требования
 
-- Node.js 20+
+- Node.js 24+
 - pnpm 10+
 
 ## Установка

@@ -10,7 +10,7 @@ import type {
   Transaction,
   UnixTimestamp,
   User,
-} from './common.types'
+} from './common.types.js'
 
 export type ForceFetchEntity =
   | 'instrument'
@@ -32,40 +32,40 @@ export interface Deletion {
 }
 
 export interface DiffEntityMap {
-  instrument: Instrument[]
-  company: Company[]
-  user: User[]
-  account: Account[]
-  tag: Tag[]
-  merchant: Merchant[]
-  budget: Budget[]
-  reminder: Reminder[]
-  reminderMarker: ReminderMarker[]
-  transaction: Transaction[]
-  deletion: Deletion[]
+  instrument: Array<Instrument>
+  company: Array<Company>
+  user: Array<User>
+  account: Array<Account>
+  tag: Array<Tag>
+  merchant: Array<Merchant>
+  budget: Array<Budget>
+  reminder: Array<Reminder>
+  reminderMarker: Array<ReminderMarker>
+  transaction: Array<Transaction>
+  deletion: Array<Deletion>
 }
 
-export type DiffForceFetch = readonly ForceFetchEntity[] | undefined
+export type DiffForceFetch = ReadonlyArray<ForceFetchEntity> | undefined
 
 type ForceFetchedEntity<ForceFetch extends DiffForceFetch> =
-  ForceFetch extends readonly ForceFetchEntity[] ? ForceFetch[number] : never
+  ForceFetch extends ReadonlyArray<ForceFetchEntity> ? ForceFetch[number] : never
 
 export interface DiffRequest<ForceFetch extends DiffForceFetch = undefined> {
   accessToken: string
   currentClientTimestamp?: UnixTimestamp
   serverTimestamp: UnixTimestamp
   forceFetch?: ForceFetch
-  instrument?: Instrument[]
-  company?: Company[]
-  user?: User[]
-  account?: Account[]
-  tag?: Tag[]
-  merchant?: Merchant[]
-  budget?: Budget[]
-  reminder?: Reminder[]
-  reminderMarker?: ReminderMarker[]
-  transaction?: Transaction[]
-  deletion?: Deletion[]
+  instrument?: Array<Instrument>
+  company?: Array<Company>
+  user?: Array<User>
+  account?: Array<Account>
+  tag?: Array<Tag>
+  merchant?: Array<Merchant>
+  budget?: Array<Budget>
+  reminder?: Array<Reminder>
+  reminderMarker?: Array<ReminderMarker>
+  transaction?: Array<Transaction>
+  deletion?: Array<Deletion>
 }
 
 type DiffResponseEntities<ForceFetch extends DiffForceFetch> = Partial<DiffEntityMap> &
@@ -77,7 +77,7 @@ export type DiffResponse<ForceFetch extends DiffForceFetch = undefined> = {
 
 export type SuggestTransaction = Partial<Transaction>
 
-export interface SuggestRequest<TPayload extends SuggestTransaction | SuggestTransaction[]> {
+export interface SuggestRequest<TPayload extends SuggestTransaction | Array<SuggestTransaction>> {
   accessToken: string
   payload: TPayload
 }

@@ -1,4 +1,6 @@
 import { ZenMoneyAuthError } from './errors.js'
+import { buildUrl, parseOAuthTokenResponse, requestJson } from './utils.js'
+
 import type {
   CreateAuthorizationUrlParams,
   ExchangeCodeParams,
@@ -6,7 +8,6 @@ import type {
   RefreshTokenParams,
   ZenMoneyAuthClientOptions,
 } from './types/auth-client.types.js'
-import { buildUrl, parseOAuthTokenResponse, requestJson } from './utils.js'
 
 export class ZenMoneyAuthClient {
   private readonly authBaseUrl = 'https://api.zenmoney.ru/oauth2/'
@@ -16,7 +17,7 @@ export class ZenMoneyAuthClient {
   private refreshToken: string | undefined
   private readonly userAgent: string | undefined
 
-  public constructor(options: ZenMoneyAuthClientOptions = {}) {
+  constructor(options: ZenMoneyAuthClientOptions = {}) {
     this.clientId = options.clientId
     this.clientSecret = options.clientSecret
     this.redirectUri = options.redirectUri
@@ -47,7 +48,7 @@ export class ZenMoneyAuthClient {
       url.searchParams.set('scope', params.scope)
     }
 
-    return url.toString()
+    return url.href
   }
 
   public async authorizeWithCode(params: ExchangeCodeParams): Promise<OAuthTokenSet> {

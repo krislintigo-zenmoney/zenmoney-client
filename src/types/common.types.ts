@@ -1,11 +1,15 @@
 export type UnixTimestamp = number
+
 export type UUID = string
 
 export type AccountType = 'cash' | 'ccard' | 'checking' | 'loan' | 'deposit' | 'emoney' | 'debt'
+
 export type BalanceCorrectionType = 'createCorrection' | 'updateBalance' | 'request' | 'disabled'
 
 export type DateOffsetInterval = 'day' | 'week' | 'month' | 'year'
+
 export type PayoffInterval = 'month' | 'year'
+
 export type ReminderMarkerState = 'planned' | 'processed' | 'deleted'
 
 interface EntityDefault<TId extends number | UUID> {
@@ -14,9 +18,9 @@ interface EntityDefault<TId extends number | UUID> {
 }
 
 interface UserOwnedEntity {
-  /**
-   * Reference - `User.id`
-   * **/
+  //
+  // Reference - `User.id`
+  //
   user: number
 }
 
@@ -36,23 +40,23 @@ export interface Company extends EntityDefault<number> {
 }
 
 export interface User extends EntityDefault<number> {
-  /**
-   * Custom login or email
-   * **/
+  //
+  // Custom login or email
+  //
   login: string
 
   email: string
 
-  /**
-   * Reference - `Instrument.id`
-   * **/
+  //
+  // Reference - `Instrument.id`
+  //
   currency: number
 
-  /**
-   * Reference - `User.id`
-   *
-   * If `null`, the user is the main account
-   * **/
+  //
+  // Reference - `User.id`
+  //
+  // If `null`, the user is the main account
+  //
   parent: number | null
 
   country: null
@@ -69,26 +73,26 @@ export interface User extends EntityDefault<number> {
 }
 
 export interface Account extends EntityDefault<UUID>, UserOwnedEntity {
-  /**
-   * Reference - `User.id`
-   * **/
+  //
+  // Reference - `User.id`
+  //
   role: number | null
 
-  /**
-   * Reference - `Instrument.id`
-   * **/
+  //
+  // Reference - `Instrument.id`
+  //
   instrument: number
 
-  /**
-   * Reference - `Company.id`
-   * **/
+  //
+  // Reference - `Company.id`
+  //
   company: number | null
 
   type: AccountType
 
   title: string
 
-  syncID: string[] | null
+  syncID: Array<string> | null
 
   balance: number
   startBalance: number | null
@@ -114,9 +118,9 @@ export interface Account extends EntityDefault<UUID>, UserOwnedEntity {
 export interface Tag extends EntityDefault<UUID>, UserOwnedEntity {
   title: string
 
-  /**
-   * Reference - `Tag.id`
-   * **/
+  //
+  // Reference - `Tag.id`
+  //
   parent: UUID | null
 
   icon: string | null
@@ -142,32 +146,32 @@ export interface Transaction extends EntityDefault<UUID>, UserOwnedEntity {
   hold?: boolean | null
   viewed: boolean
 
-  /**
-   * Reference - `Instrument.id`
-   * **/
+  //
+  // Reference - `Instrument.id`
+  //
   incomeInstrument: number
-  /**
-   * Reference - `Account.id`
-   * **/
+  //
+  // Reference - `Account.id`
+  //
   incomeAccount: UUID
   income: number
-  /**
-   * Reference - `Instrument.id`
-   * **/
+  //
+  // Reference - `Instrument.id`
+  //
   outcomeInstrument: number
-  /**
-   * Reference - `Account.id`
-   * **/
+  //
+  // Reference - `Account.id`
+  //
   outcomeAccount: UUID
   outcome: number
 
-  /**
-   * Reference - `Tag.id`
-   * **/
-  tag: UUID[] | null
-  /**
-   * Reference - `Merchant.id`
-   * **/
+  //
+  // Reference - `Tag.id`
+  //
+  tag: Array<UUID> | null
+  //
+  // Reference - `Merchant.id`
+  //
   merchant: UUID | null
   payee: string | null
   originalPayee: string | null
@@ -178,21 +182,21 @@ export interface Transaction extends EntityDefault<UUID>, UserOwnedEntity {
 
   reminderMarker: UUID | null
 
-  /**
-   * Income amount in operation currency
-   * **/
+  //
+  // Income amount in operation currency
+  //
   opIncome: number | null
-  /**
-   * Operation currency
-   * **/
+  //
+  // Operation currency
+  //
   opIncomeInstrument: number | null
-  /**
-   * Outcome amount in operation currency
-   * **/
+  //
+  // Outcome amount in operation currency
+  //
   opOutcome: number | null
-  /**
-   * Operation currency
-   * **/
+  //
+  // Operation currency
+  //
   opOutcomeInstrument: number | null
 
   latitude: number | null
@@ -206,11 +210,11 @@ export interface Transaction extends EntityDefault<UUID>, UserOwnedEntity {
 export interface Budget extends UserOwnedEntity {
   changed: UnixTimestamp
 
-  /**
-   * Reference - `Tag.id`
-   *
-   * If `null`, budget for transactions without tags
-   * **/
+  //
+  // Reference - `Tag.id`
+  //
+  // If `null`, budget for transactions without tags
+  //
   tag: UUID | null
 
   date: string
@@ -231,7 +235,7 @@ interface ReminderBase extends EntityDefault<UUID>, UserOwnedEntity {
   outcomeAccount: UUID
   outcome: number
 
-  tag: UUID[] | null
+  tag: Array<UUID> | null
   merchant: UUID | null
   payee: string | null
   comment: string | null
@@ -245,7 +249,7 @@ export interface Reminder extends ReminderBase {
 
   step: number | null
 
-  points: number[] | null
+  points: Array<number> | null
 
   startDate: string
   endDate: string | null
@@ -254,9 +258,9 @@ export interface Reminder extends ReminderBase {
 export interface ReminderMarker extends ReminderBase {
   date: string
 
-  /**
-   * Reference - `Reminder.id`
-   * **/
+  //
+  // Reference - `Reminder.id`
+  //
   reminder: UUID
 
   state: ReminderMarkerState

@@ -43,9 +43,7 @@
     "access": "public",
     "provenance": true
   },
-  "engines": {
-    "node": ">=20"
-  },
+  "prettier": "@krislintigo/prettier-config",
   "packageManager": "pnpm@10.33.2",
   "scripts": {
     "build": "tsup",
@@ -53,7 +51,7 @@
     "dev": "tsup --watch",
     "lint": "eslint .",
     "pack:check": "pnpm build && publint",
-    "prepublishOnly": "pnpm clean && pnpm lint && pnpm test && pnpm pack:check",
+    "prepublishOnly": "pnpm clean && pnpm typecheck && pnpm lint && pnpm test && pnpm pack:check",
     "release": "semantic-release",
     "release:dry-run": "semantic-release --dry-run",
     "test": "vitest run",
@@ -61,22 +59,27 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@krislintigo/eslint-config": "^1.0.1",
+    "@krislintigo/eslint-config": "^2.1.0",
+    "@krislintigo/prettier-config": "^1.0.0",
+    "@krislintigo/tsconfig": "^1.4.0",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/commit-analyzer": "^13.0.1",
     "@semantic-release/git": "^10.0.1",
-    "@semantic-release/github": "^11.0.6",
-    "@semantic-release/npm": "^12.0.2",
-    "@semantic-release/release-notes-generator": "^14.1.0",
-    "@types/node": "^22.15.3",
-    "conventional-changelog-conventionalcommits": "^8.0.0",
-    "eslint": "^9.39.4",
-    "prettier": "^3.8.3",
-    "publint": "^0.3.18",
+    "@semantic-release/github": "^12.0.8",
+    "@semantic-release/npm": "^13.1.5",
+    "@semantic-release/release-notes-generator": "^14.1.1",
+    "@types/node": "^24.13.2",
+    "conventional-changelog-conventionalcommits": "^10.2.0",
+    "eslint": "^10.6.0",
+    "prettier": "^3.9.1",
+    "publint": "^0.3.21",
     "rimraf": "^6.1.3",
-    "semantic-release": "^24.2.9",
+    "semantic-release": "^25.0.5",
     "tsup": "^8.5.1",
-    "typescript": "^5.8.3",
-    "vitest": "^4.1.5"
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.9"
+  },
+  "engines": {
+    "node": ">=24.16.0"
   }
 }

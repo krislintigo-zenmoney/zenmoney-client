@@ -24,7 +24,7 @@ jobs:
           version: 10.33.2
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: pnpm
           registry-url: https://registry.npmjs.org
       - run: pnpm install --frozen-lockfile
@@ -33,6 +33,3 @@ jobs:
       - run: pnpm test
       - run: pnpm build
       - run: pnpm release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -10,7 +10,6 @@ export type {
   Company,
   DateOffsetInterval,
   Instrument,
-  ISODateString,
   Merchant,
   PayoffInterval,
   Reminder,

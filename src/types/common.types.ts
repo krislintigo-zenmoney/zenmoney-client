@@ -1,8 +1,8 @@
 export type UnixTimestamp = number
-export type ISODateString = `${number}-${number}-${number}`
 export type UUID = string
 
 export type AccountType = 'cash' | 'ccard' | 'checking' | 'loan' | 'deposit' | 'emoney' | 'debt'
+export type BalanceCorrectionType = 'createCorrection' | 'updateBalance' | 'request' | 'disabled'
 
 export type DateOffsetInterval = 'day' | 'week' | 'month' | 'year'
 export type PayoffInterval = 'month' | 'year'
@@ -96,7 +96,7 @@ export interface Account extends EntityDefault<UUID>, UserOwnedEntity {
 
   capitalization: boolean | null
   percent: number | null
-  startDate: ISODateString | null
+  startDate: string | null
   endDateOffset: number | null
   endDateOffsetInterval: DateOffsetInterval | null
   payoffStep: number | null
@@ -104,7 +104,9 @@ export interface Account extends EntityDefault<UUID>, UserOwnedEntity {
 
   inBalance: boolean
   savings: boolean
+  private: boolean
   enableCorrection: boolean
+  balanceCorrectionType: BalanceCorrectionType
   enableSMS: boolean
   archive: boolean
 }
@@ -171,7 +173,7 @@ export interface Transaction extends EntityDefault<UUID>, UserOwnedEntity {
   originalPayee: string | null
   comment: string | null
 
-  date: ISODateString
+  date: string
   mcc: number | null
 
   reminderMarker: UUID | null
@@ -211,7 +213,7 @@ export interface Budget extends UserOwnedEntity {
    * **/
   tag: UUID | null
 
-  date: ISODateString
+  date: string
 
   income: number
   incomeLock: boolean
@@ -245,12 +247,12 @@ export interface Reminder extends ReminderBase {
 
   points: number[] | null
 
-  startDate: ISODateString
-  endDate: ISODateString | null
+  startDate: string
+  endDate: string | null
 }
 
 export interface ReminderMarker extends ReminderBase {
-  date: ISODateString
+  date: string
 
   /**
    * Reference - `Reminder.id`

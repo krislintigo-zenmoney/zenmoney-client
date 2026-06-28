@@ -121,34 +121,6 @@ pnpm typecheck
 pnpm pack:check
 ```
 
-## Публикация в npm
-
-1. При необходимости поменяйте `name` в `package.json` на свободное имя пакета.
-2. Настройте секрет `NPM_TOKEN` в GitHub Actions.
-3. Используйте Conventional Commits, например `feat: add suggest helper` или `fix: normalize oauth token parsing`.
-4. Для локальной проверки релиза выполните:
-
-```bash
-pnpm release:dry-run
-```
-
-5. После пуша в `main` или `master` workflow `Release` сам:
-
-- определит semver bump по коммитам
-- обновит `CHANGELOG.md`
-- создаст git tag и GitHub release
-- опубликует пакет в npm
-
-## Semantic Changelog
-
-В проект добавлен `semantic-release` с автоматической генерацией `CHANGELOG.md`.
-
-- `feat:` даёт `minor`
-- `fix:` даёт `patch`
-- `feat!:` или `BREAKING CHANGE:` даёт `major`
-
-Конфигурация лежит в `.releaserc.json`, а автоматический релиз запускается через `.github/workflows/release.yml`.
-
 ## Соответствие спецификации
 
 SDK опирается на описание ZenMoney API из официальной wiki:

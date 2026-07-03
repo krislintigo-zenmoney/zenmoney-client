@@ -1,3 +1,5 @@
+## [2.0.1](https://github.com/krislintigo-zenmoney/zenmoney-client/compare/v2.0.0...v2.0.1) (2026-07-03)
+
 ## [2.0.0](https://github.com/krislintigo-zenmoney/zenmoney-client/compare/v1.2.2...v2.0.0) (2026-06-28)
 
 ## [1.2.2](https://github.com/krislintigo-zenmoney/zenmoney-client/compare/v1.2.1...v1.2.2) (2026-05-02)

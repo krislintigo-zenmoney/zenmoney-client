@@ -61,12 +61,14 @@
     "release:dry-run": "semantic-release --dry-run"
   },
   "devDependencies": {
+    "@commitlint/cli": "^21.2.0",
     "@krislintigo/eslint-config": "^2.1.0",
     "@krislintigo/prettier-config": "^1.0.0",
     "@krislintigo/release-kit": "^1.0.0",
     "@krislintigo/tsconfig": "^1.4.0",
     "@types/node": "^24.13.2",
     "eslint": "^10.6.0",
+    "husky": "^9.1.7",
     "prettier": "^3.9.1",
     "publint": "^0.3.21",
     "rimraf": "^6.1.3",

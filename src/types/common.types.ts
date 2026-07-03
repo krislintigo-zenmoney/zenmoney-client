@@ -217,14 +217,15 @@ export interface Budget extends UserOwnedEntity {
   //
   tag: UUID | null
 
+  /** YYYY-MM-01 */
   date: string
 
   income: number
-  incomeLock: boolean
-  isIncomeForecast: false
   outcome: number
+  incomeLock: boolean
   outcomeLock: boolean
-  isOutcomeForecast: false
+  isIncomeForecast: boolean
+  isOutcomeForecast: boolean
 }
 
 interface ReminderBase extends EntityDefault<UUID>, UserOwnedEntity {

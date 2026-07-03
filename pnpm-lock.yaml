@@ -14,33 +14,15 @@ importers:
       '@krislintigo/prettier-config':
         specifier: ^1.0.0
         version: 1.0.0(prettier@3.9.1)
+      '@krislintigo/release-kit':
+        specifier: ^1.0.0
+        version: 1.0.0(semantic-release@25.0.5(typescript@6.0.3))
       '@krislintigo/tsconfig':
         specifier: ^1.4.0
         version: 1.4.0
-      '@semantic-release/changelog':
-        specifier: ^6.0.3
-        version: 6.0.3(semantic-release@25.0.5(typescript@6.0.3))
-      '@semantic-release/commit-analyzer':
-        specifier: ^13.0.1
-        version: 13.0.1(semantic-release@25.0.5(typescript@6.0.3))
-      '@semantic-release/git':
-        specifier: ^10.0.1
-        version: 10.0.1(semantic-release@25.0.5(typescript@6.0.3))
-      '@semantic-release/github':
-        specifier: ^12.0.8
-        version: 12.0.8(semantic-release@25.0.5(typescript@6.0.3))
-      '@semantic-release/npm':
-        specifier: ^13.1.5
-        version: 13.1.5(semantic-release@25.0.5(typescript@6.0.3))
-      '@semantic-release/release-notes-generator':
-        specifier: ^14.1.1
-        version: 14.1.1(semantic-release@25.0.5(typescript@6.0.3))
       '@types/node':
         specifier: ^24.13.2
         version: 24.13.2
-      conventional-changelog-conventionalcommits:
-        specifier: ^10.2.0
-        version: 10.2.0
       eslint:
         specifier: ^10.6.0
         version: 10.6.0
@@ -95,6 +77,14 @@ packages:
   '@colors/colors@1.5.0':
     resolution: {integrity: sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==}
     engines: {node: '>=0.1.90'}
+
+  '@commitlint/config-conventional@21.2.0':
+    resolution: {integrity: sha512-Qf8WRDVcyVd14if6VTWenebxFbKnVnbzPUJjlzjkyJGeHK2xCGd63Dr1XZzj0plXKQb9P0BfOxoc1HVeCo2BWQ==}
+    engines: {node: '>=22.12.0'}
+
+  '@commitlint/types@21.2.0':
+    resolution: {integrity: sha512-7zVFCDB2reMvJH5dmbKnOQPjZEvjdJTH8jc0U/PIPU1r3/+vf5pD1HlfitV2MWsWXrvu7u39iY1lyLUPOaN0Gw==}
+    engines: {node: '>=22.12.0'}
 
   '@conventional-changelog/template@1.2.0':
     resolution: {integrity: sha512-12qHxvlKjHmP0PQ+17EREgC7lWyLwbph1RKcZQZ7k7ZWGmrxfxC9gadHGfvzr0g0u8BhiBGg3tks93txodlyRQ==}
@@ -349,6 +339,16 @@ packages:
     peerDependencies:
       prettier: '>=3.8.0'
 
+  '@krislintigo/release-kit@1.0.0':
+    resolution: {integrity: sha512-Z7dOH6u7EjUwaU2MfgGmYLpjmhQsLJSLVCnOJ2BPAdLQ1pshf/Rtiduk9pFVeC9UVV7RCHd7ZSgKyJmxJNYRJA==}
+    engines: {node: '>=24.16.0'}
+    hasBin: true
+    peerDependencies:
+      semantic-release: '>=25'
+    peerDependenciesMeta:
+      semantic-release:
+        optional: true
+
   '@krislintigo/tsconfig@1.4.0':
     resolution: {integrity: sha512-QdvEtI4yAkWYSpgE6Gsthk0UeRJpEDgyL6rBhTTJFn2VTeZ5SGmCfl6brCunWDoIBUmsBk+6uC79hTIfpvrizw==}
 
@@ -595,6 +595,12 @@ packages:
     peerDependencies:
       semantic-release: '>=24.1.0'
 
+  '@semantic-release/github@12.0.9':
+    resolution: {integrity: sha512-ODIqb0V3QqndipryEEiaBxUQCFjvv7Oese5Dt4omMGa60YRNEW0Sx3K+zri0uac2Y6S9nOlMehciWIzvvRCTGQ==}
+    engines: {node: ^22.14.0 || >= 24.10.0}
+    peerDependencies:
+      semantic-release: '>=24.1.0'
+
   '@semantic-release/npm@13.1.5':
     resolution: {integrity: sha512-Hq5UxzoatN3LHiq2rTsWS54nCdqJHlsssGERCo8WlvdfFA9LoN0vO+OuKVSjtNapIc/S8C2LBj206wKLHg62mg==}
     engines: {node: ^22.14.0 || >= 24.10.0}
@@ -610,6 +616,10 @@ packages:
   '@simple-libs/stream-utils@1.2.0':
     resolution: {integrity: sha512-KxXvfapcixpz6rVEB6HPjOUZT22yN6v0vI0urQSk1L8MlEWPDFCZkhw2xmkyoTGYeFw7tWTZd7e3lVzRZRN/EA==}
     engines: {node: '>=18'}
+
+  '@simple-libs/stream-utils@2.0.0':
+    resolution: {integrity: sha512-fCTuZK4QBa+39Oz9l4OGfJfz+GpwCp3AqO7Zch3to99xHPgstVsRFpeQ8LNd2o1Gv8raL2mCFwiaHh7bFSp5DQ==}
+    engines: {node: '>=22'}
 
   '@sindresorhus/is@4.6.0':
     resolution: {integrity: sha512-t09vSN3MdfsyCHoFcTRCH/iUtG7OJ0CsjzB8cjAmKc/va/kIgeDI/TxsigdncE/4be734m0cvIYwNaV4i2XqAw==}
@@ -1126,6 +1136,11 @@ packages:
   conventional-commits-parser@6.4.0:
     resolution: {integrity: sha512-tvRg7FIBNlyPzjdG8wWRlPHQJJHI7DylhtRGeU9Lq+JuoPh5BKpPRX83ZdLrvXuOSu5Eo/e7SzOQhU4Hd2Miuw==}
     engines: {node: '>=18'}
+    hasBin: true
+
+  conventional-commits-parser@7.0.0:
+    resolution: {integrity: sha512-dZe/p+FgGQLNJFqaCgNdl8j6a7gI8xuaN30Wy5g7nvyK3jqOpNUEUZ3pGJ5D68h89uRh038FtkeOk/bnGmYkmg==}
+    engines: {node: '>=22'}
     hasBin: true
 
   convert-hrtime@5.0.0:
@@ -2043,6 +2058,10 @@ packages:
   meow@13.2.0:
     resolution: {integrity: sha512-pxQJQzB6djGPXh08dacEloMFopsOqGVRKFPYvPOt9XDZ1HasbgDZA74CJGreSU4G3Ak7EFJGoiH2auq+yXISgA==}
     engines: {node: '>=18'}
+
+  meow@14.1.0:
+    resolution: {integrity: sha512-EDYo6VlmtnumlcBCbh1gLJ//9jvM/ndXHfVXIFrZVr6fGcwTUyCTFNTLCKuY3ffbK8L/+3Mzqnd58RojiZqHVw==}
+    engines: {node: '>=20'}
 
   merge-stream@2.0.0:
     resolution: {integrity: sha512-abv/qOcuPfk3URPfDzmZU1LKmuw8kT+0nIHvKrKgFrwifol/doWcdA4ZqsWQ8ENrFKkd67Mfpo/LovbIUsbt3w==}
@@ -3176,6 +3195,16 @@ snapshots:
   '@colors/colors@1.5.0':
     optional: true
 
+  '@commitlint/config-conventional@21.2.0':
+    dependencies:
+      '@commitlint/types': 21.2.0
+      conventional-changelog-conventionalcommits: 10.2.0
+
+  '@commitlint/types@21.2.0':
+    dependencies:
+      conventional-commits-parser: 7.0.0
+      picocolors: 1.1.1
+
   '@conventional-changelog/template@1.2.0': {}
 
   '@emnapi/core@1.10.0':
@@ -3359,6 +3388,23 @@ snapshots:
   '@krislintigo/prettier-config@1.0.0(prettier@3.9.1)':
     dependencies:
       prettier: 3.9.1
+
+  '@krislintigo/release-kit@1.0.0(semantic-release@25.0.5(typescript@6.0.3))':
+    dependencies:
+      '@commitlint/config-conventional': 21.2.0
+      '@semantic-release/changelog': 6.0.3(semantic-release@25.0.5(typescript@6.0.3))
+      '@semantic-release/commit-analyzer': 13.0.1(semantic-release@25.0.5(typescript@6.0.3))
+      '@semantic-release/git': 10.0.1(semantic-release@25.0.5(typescript@6.0.3))
+      '@semantic-release/github': 12.0.9(semantic-release@25.0.5(typescript@6.0.3))
+      '@semantic-release/npm': 13.1.5(semantic-release@25.0.5(typescript@6.0.3))
+      '@semantic-release/release-notes-generator': 14.1.1(semantic-release@25.0.5(typescript@6.0.3))
+      conventional-changelog-conventionalcommits: 10.2.0
+      publint: 0.3.21
+    optionalDependencies:
+      semantic-release: 25.0.5(typescript@6.0.3)
+    transitivePeerDependencies:
+      - kerberos
+      - supports-color
 
   '@krislintigo/tsconfig@1.4.0': {}
 
@@ -3587,6 +3633,30 @@ snapshots:
       - kerberos
       - supports-color
 
+  '@semantic-release/github@12.0.9(semantic-release@25.0.5(typescript@6.0.3))':
+    dependencies:
+      '@octokit/core': 7.0.6
+      '@octokit/plugin-paginate-rest': 14.0.0(@octokit/core@7.0.6)
+      '@octokit/plugin-retry': 8.1.0(@octokit/core@7.0.6)
+      '@octokit/plugin-throttling': 11.0.3(@octokit/core@7.0.6)
+      '@semantic-release/error': 4.0.0
+      aggregate-error: 5.0.0
+      debug: 4.4.3
+      dir-glob: 3.0.1
+      http-proxy-agent: 9.1.0
+      https-proxy-agent: 9.1.0
+      issue-parser: 7.0.1
+      lodash-es: 4.18.1
+      mime: 4.1.0
+      p-filter: 4.1.0
+      semantic-release: 25.0.5(typescript@6.0.3)
+      tinyglobby: 0.2.16
+      undici: 7.28.0
+      url-join: 5.0.0
+    transitivePeerDependencies:
+      - kerberos
+      - supports-color
+
   '@semantic-release/npm@13.1.5(semantic-release@25.0.5(typescript@6.0.3))':
     dependencies:
       '@actions/core': 3.0.1
@@ -3621,6 +3691,8 @@ snapshots:
       - supports-color
 
   '@simple-libs/stream-utils@1.2.0': {}
+
+  '@simple-libs/stream-utils@2.0.0': {}
 
   '@sindresorhus/is@4.6.0': {}
 
@@ -4154,6 +4226,11 @@ snapshots:
     dependencies:
       '@simple-libs/stream-utils': 1.2.0
       meow: 13.2.0
+
+  conventional-commits-parser@7.0.0:
+    dependencies:
+      '@simple-libs/stream-utils': 2.0.0
+      meow: 14.1.0
 
   convert-hrtime@5.0.0: {}
 
@@ -5236,6 +5313,8 @@ snapshots:
     optional: true
 
   meow@13.2.0: {}
+
+  meow@14.1.0: {}
 
   merge-stream@2.0.0: {}
 

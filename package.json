@@ -64,7 +64,7 @@
   "devDependencies": {
     "@krislintigo/eslint-config": "^2.1.0",
     "@krislintigo/prettier-config": "^1.0.0",
-    "@krislintigo/release-kit": "^1.1.2",
+    "@krislintigo/release-kit": "^1.3.0",
     "@krislintigo/tsconfig": "^1.4.0",
     "@types/node": "^24.13.2",
     "eslint": "^10.6.0",

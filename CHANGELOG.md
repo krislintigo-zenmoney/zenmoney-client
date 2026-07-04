@@ -1,3 +1,13 @@
+## [3.0.0](https://github.com/krislintigo-zenmoney/zenmoney-client/compare/v2.0.3...v3.0.0) (2026-07-04)
+
+### ⚠ BREAKING CHANGES
+
+* package is now ESM-only, require() is no longer supported
+
+### Features
+
+* drop cjs support ([ef9864f](https://github.com/krislintigo-zenmoney/zenmoney-client/commit/ef9864f69adacc32952e9c5c490a81d4c5760ad0))
+
 ## [2.0.3](https://github.com/krislintigo-zenmoney/zenmoney-client/compare/v2.0.2...v2.0.3) (2026-07-04)
 
 ## [2.0.2](https://github.com/krislintigo-zenmoney/zenmoney-client/compare/v2.0.1...v2.0.2) (2026-07-03)

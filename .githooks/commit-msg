@@ -1,0 +1,2 @@
+#!/usr/bin/env sh
+./node_modules/.bin/release-kit commitlint --edit "$1"
